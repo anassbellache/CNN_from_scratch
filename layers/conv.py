@@ -1,7 +1,7 @@
 import numpy as np
 from utils import pad_1d, pad_2d
 
-class conv2D:
+class conv2d:
     def __init__(self, num_filters, filter_size, padding=0):
         self.num_filters = num_filters
         self.filter_size = filter_size
