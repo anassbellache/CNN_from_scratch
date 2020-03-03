@@ -12,6 +12,20 @@ class ConvNet:
                 out_dim,
                 padding=0,
                 stride=1):
+                """Convolutional neural network with one convolutional layer, a maxpooling layer,
+                then a dense and softmax layer.
+                
+                Arguments:
+                    filter_size {int} -- filter size for the convolutional layer
+                    num_filters {int} -- number of filters in convulutional layer
+                    pool_size {int} -- size of maxpooling filter
+                    input_shape {(int, int)} -- width and height of input images
+                    out_dim {int} -- number of possible labels
+                
+                Keyword Arguments:
+                    padding {int} -- padding coefficient (default: {0})
+                    stride {int} -- stride coefficient (default: {1})
+                """
         
         self.conv = Conv2D(num_filters, filter_size, padding, stride)
         self.pooling = MaxPooling2D(pool_size)
@@ -21,12 +35,15 @@ class ConvNet:
         self.softmax = Softmax(softmax_in, out_dim)
     
     def forward(self, image):
+        """forward pass throught the CNN"""
+
         out = self.conv.forward(image)
         out = self.pooling.forward(out)
         out = self.softmax.forward(out)
         return out
     
     def backward(self, gradient, learning_rate):
+        """Backprop through the CNN"""
         grad_back = self.softmax.backward(gradient, learning_rate)
         grad_back = self.pooling.backward(grad_back)
         grad_back = self.conv.backward(grad_back, learning_rate)
