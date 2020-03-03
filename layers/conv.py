@@ -1,5 +1,5 @@
 import numpy as np
-from utils import pad_2d
+from utils import pad_2d, output_shape
 
 class Conv2D:
     def __init__(self, num_filters, filter_size, padding=0, stride=1):
@@ -12,21 +12,18 @@ class Conv2D:
     def image_patch(self, image):
         height, width = image.shape
         self.current_image = image
-        H_out = int((height - self.filter_size)/self.stride) + 1
-        W_out = int((width - self.filter_size)/self.stride) + 1
+        H_out, W_out = output_shape(height, width, self.filter_size, self.padding, self.stride)
         for j in range(H_out):
             for k in range(W_out):
                 image_patch = image[j*self.stride : (j*self.stride + self.filter_size), k*self.stride:(k*self.stride+self.filter_size)]
                 yield image_patch, j, k
     
     def forward(self, image):
-        #padded_image = pad_2d(image, self.padding)
-        padded_image = image
-        height, width = padded_image.shape
-        H_out = int((height - self.filter_size)/self.stride) + 1
-        W_out = int((width - self.filter_size)/self.stride) + 1
+        height, width = image.shape
+        H_out, W_out = output_shape(height, width, self.filter_size, self.padding, self.stride)
         output = np.zeros((H_out, W_out, self.num_filters))
-        for patch, i, j in self.image_patch(image):
+        padded_image = pad_2d(image, self.padding)
+        for patch, i, j in self.image_patch(padded_image):
             output[i,j] = np.sum(patch*self.conv_filter, axis=(1,2))
         return output
 

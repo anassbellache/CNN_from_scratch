@@ -34,8 +34,11 @@ def train(image, label, learning_rate=0.005):
 
 epochs = 5
 for epoch in range(epochs):
-    print("Epoch :{}".format(epoch))
-    print('**Train**')
+    print("*********************************************************************")
+    print("************************  Epoch: {}  ********************************".format(epoch))
+    print("*********************************************************************")
+    print("\n")
+    print('************************ Train **************************************')
     shuffle_data = np.random.permutation(len(train_images))
     train_images = train_images[shuffle_data]
     train_labels = train_labels[shuffle_data]
@@ -46,12 +49,13 @@ for epoch in range(epochs):
         l1, accu = train(im, label)
         loss += l1
         num_correct += accu
-
+    
     num_train = len(train_images)
     print('Train Loss:', loss/num_train)
     print('Train Accuracy:', num_correct/num_train)
+    print("\n")
 
-    print('**Test**')
+    print('************************ Test **************************************')
     loss = 0
     num_correct = 0
     for im, label in zip(test_images, test_labels):
@@ -62,3 +66,4 @@ for epoch in range(epochs):
     num_tests = len(test_images)
     print('Test Loss:', loss/num_tests)
     print('Test Accuracy:', num_correct/num_tests)
+    print('\n')

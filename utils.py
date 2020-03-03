@@ -6,6 +6,8 @@ def pad_1d(input_, padding):
     return np.concatenate([zeros, input_, zeros])
 
 def pad_2d(input_, padding):
+    if padding == 0:
+        return input_
     side_pad = np.zeros((input_.shape[0], padding))
     side_padded = np.concatenate([side_pad, input_, side_pad])
     ceiling_pad = np.zeros(padding, input_.shape[1] + 2*padding)
