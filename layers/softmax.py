@@ -19,7 +19,7 @@ class Softmax:
             denom = np.sum(numerator)
 
             d_softmax_dz = -numerator[i]*numerator / (denom**2)
-            d_softmax_dz = numerator[i]*(denom - numerator[i])/(denom**2)
+            d_softmax_dz[i] = numerator[i]*(denom - numerator[i])/(denom**2)
 
             dz_dw = self.flattened_image
             dz_db = 1
