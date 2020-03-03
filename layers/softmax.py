@@ -2,16 +2,41 @@ import numpy as np
 
 class Softmax:
     def __init__(self, input_size, output_size):
+        """Softmax layer
+        
+        Arguments:
+            input_size {int} -- input size of the layer
+            output_size {int} -- dimension of the labels space
+        """
         self.weights = np.random.randn(input_size, output_size)/input_size
         self.bias = np.zeros(output_size)
     
     def forward(self, image):
+        """Performs forward pass through the layer.
+        The pass involves flattening the input tensor, going through a fully connnected layer 
+        followed by a softmax function
+        
+        Arguments:
+            image {np.ndarray} -- input tennor
+        
+        Returns:
+            [type] -- [description]
+        """
         self.current_image = image
         self.flattened_image = image.flatten()
         self.output = np.dot(self.flattened_image, self.weights) + self.bias
         return np.exp(self.output)/np.sum(np.exp(self.output), axis=0)
     
     def backward(self, pervious_grad, learning_rate):
+        """Performs backward propagation through the layer
+        
+        Arguments:
+            pervious_grad {np.ndarray} -- gradient from upcoming layer
+            learning_rate {int} -- rate for parameter updates
+        
+        Returns:
+            [np.ndarray] -- backprop gradient
+        """
         for i, grad in enumerate(pervious_grad):
             if grad == 0:
                 continue

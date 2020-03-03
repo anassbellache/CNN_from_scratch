@@ -2,9 +2,23 @@ import numpy as np
 
 class MaxPooling2D:
     def __init__(self, filter_size):
+        """Max Pooling layer class
+        
+        Arguments:
+            filter_size {int} -- size of the max pooling filter
+        """
         self.filter_size = filter_size
     
     def image_patch(self, image):
+        """Generates an image patch for the maxpooling operation. We did not implement stride and zero
+        padding for this operation. 
+        
+        Arguments:
+            image {np.ndarray} -- input tensor
+        
+        Yields:
+            [np.ndarray] -- a patch of the tensor
+        """
         out_height = image.shape[0] // self.filter_size
         out_width = image.shape[1] // self.filter_size
         self.current_image = image
@@ -15,6 +29,14 @@ class MaxPooling2D:
                 yield patch, i, j
     
     def forward(self, image):
+        """Performs the forward operation for 2D maxpooling
+        
+        Arguments:
+            image {np.ndarray} -- input tensor
+        
+        Returns:
+            [np.ndarray] -- output of max pooling layer
+        """
         height, width, num_filters = image.shape
         output = np.zeros((height//self.filter_size, width//self.filter_size, num_filters))
 
@@ -24,6 +46,15 @@ class MaxPooling2D:
         return output
     
     def backward(self, pervious_grad):
+        """Performs backpropagation through maxpooling layer. Since this step does not have parameters 
+        there is no update and only the gradient is returned 
+        
+        Arguments:
+            pervious_grad {np.ndarray} -- gradient from upcoming layer
+        
+        Returns:
+            [np.ndarray] -- backprop gradient
+        """
         pooling_grad = np.zeros(self.current_image.shape)
         for patch, i, j in self.image_patch(self.current_image):
             height, width, num_filters = patch.shape
