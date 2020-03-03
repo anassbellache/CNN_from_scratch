@@ -25,14 +25,14 @@ class ConvNet:
                 Keyword Arguments:
                     padding {int} -- padding coefficient (default: {0})
                     stride {int} -- stride coefficient (default: {1})
-                """
-        
-        self.conv = Conv2D(num_filters, filter_size, padding, stride)
-        self.pooling = MaxPooling2D(pool_size)
-        H_1, W_1 = output_shape(input_shape[0], input_shape[1], filter_size, padding, stride)
-        H_2, W_2 = H_1//pool_size, W_1//pool_size
-        softmax_in = H_2*W_2*num_filters
-        self.softmax = Softmax(softmax_in, out_dim)
+            """
+                
+                self.conv = Conv2D(num_filters, filter_size, padding, stride)
+                self.pooling = MaxPooling2D(pool_size)
+                H_1, W_1 = output_shape(input_shape[0], input_shape[1], filter_size, padding, stride)
+                H_2, W_2 = H_1//pool_size, W_1//pool_size
+                softmax_in = H_2*W_2*num_filters
+                self.softmax = Softmax(softmax_in, out_dim)
     
     def forward(self, image):
         """forward pass throught the CNN"""

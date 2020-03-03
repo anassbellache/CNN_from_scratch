@@ -11,7 +11,7 @@ test_images = x_test[:1500]
 test_labels = y_test[:1500]
 
 input_shape = train_images[0].shape
-convnet = ConvNet(filter_size=3, num_filters=12, pool_size=2, input_shape=input_shape, out_dim=10)
+convnet = ConvNet(filter_size=3, num_filters=9, pool_size=2, input_shape=input_shape, out_dim=10)
 
 print("CNN layers created")
 
