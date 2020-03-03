@@ -15,3 +15,8 @@ def pad_2d(input_, padding):
 def batch_pad_2d(batch, padding):
     outs = [pad_2d(elt, padding) for elt in batch]
     return np.stack(outs)
+
+def output_shape(input_height, input_width, filter_size, padding=0, stride=1):
+    output_height = int((input_height + 2*padding - filter_size)/stride) + 1
+    output_width = int((input_width + 2*padding - filter_size)/stride) + 1
+    return output_height, output_width
